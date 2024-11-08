@@ -1,16 +1,17 @@
 import React from 'react'
 import Header from '../Components/Header'
 import Footer from '../Components/Footer'
-import HomeContent from '../Components/HomeContent'
+import ErrorContent from '../Components/ErrorContent'
 
-const Home = () => {
+
+const About = () => {
     return (
         <>
             <Header />
-            <HomeContent />
+            <ErrorContent />
             <Footer />
         </>
     )
 }
 
-export default Home
+export default About

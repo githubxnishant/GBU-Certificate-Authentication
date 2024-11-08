@@ -20,9 +20,10 @@ const Header = () => {
                 src="/Images/fulllogogbu.png" />
             </a>
             <div className='flex gap-8 mr-20 cursor-pointer'>
-                <p className='text-lg'>Abhivyanjana</p>
-                <p className='text-lg'>Glitch</p>
-                <p className='text-lg'>Shauryautsav</p>
+                <p className='text-base'>Home</p>
+                <p className='text-base'>Abhivyanjana</p>
+                <p className='text-base'>Glitch</p>
+                <p className='text-base'>Shauryautsav</p>
                 {/* <p className='dropdown-menu'>E-Resources</p>
                 <p>Library</p>
                 <p>Directory</p>

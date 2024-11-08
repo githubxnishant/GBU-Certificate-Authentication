@@ -1,6 +1,6 @@
 import React from 'react'
 
-const HomeMain = () => {
+const HomeContent = () => {
     const submitHandler = (e) => {
         e.preventDefault();
     }
@@ -10,7 +10,7 @@ const HomeMain = () => {
                 <img src="/Images/Gautam_Buddha_University.jpg" alt="" className='relative -top-96 -z-10'/>
             </div>
             <div className='w-screen h-body-fit flex justify-center items-center'>
-                <div className='w-1/3 h-[57%] bg-[#d9d9d9] border-2 border-black rounded-xl flex items-center justify-center opacity-90'>
+                <div className='w-[30%] h-[70%] bg-[#d9d9d9] border-2 border-black rounded-xl flex items-center justify-center opacity-90'>
                     <div className='w-[95%] h-[90%] place-items-center'>
                         <div className='w-full h-[40%] flex justify-center items-center flex-col'>
                             <img src="/Images/gbu_logo.png" alt="" className='w-28 h-28' />
@@ -34,4 +34,4 @@ const HomeMain = () => {
     )
 }
 
-export default HomeMain
+export default HomeContent
