@@ -15,9 +15,10 @@ const ErrorContent = ({ authenticateCertificate }) => {
                         <div className='w-full h-[10%] flex justify-center items-center mb-5'>
                             <h1 className='font-medium text-xl'>GBU Certificate Authentication</h1>
                         </div>
-                        <div className='w-[85%] h-1/3 bg-white border-2 border-black rounded text-sm shadow-md'>
-                            <p className='h-full flex justify-center items-center text-center'>The Certificate with ID { authenticateCertificate } *CertificateID is not valid</p>
+                        <div className='w-[85%] h-1/4 bg-white border-2 border-black rounded text-sm shadow-md'>
+                            <p className='h-full flex justify-center items-center text-center'>The Certificate with ID { authenticateCertificate } 'CertificateID' is not valid</p>
                         </div>
+                        <button className='border-2 border-black bg-emerald-400 rounded-xl shadow-md mt-5 px-10 py-1'>Go Back</button>
                     </div>
                 </div>
             </div>
