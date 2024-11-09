@@ -19,11 +19,11 @@ const Header = () => {
                 className='h-14 w-auto mx-10 my-5'
                 src="/Images/fulllogogbu.png" />
             </a>
-            <div className='flex gap-8 mr-20 cursor-pointer'>
-                <p className='text-base'>Home</p>
-                <p className='text-base'>Abhivyanjana</p>
-                <p className='text-base'>Glitch</p>
-                <p className='text-base'>Shauryautsav</p>
+            <div className='flex gap-8 mr-20'>
+                <p className='text-base cursor-pointer'>Home</p>
+                <p className='text-base cursor-pointer'>Abhivyanjana</p>
+                <p className='text-base cursor-pointer'>Glitch</p>
+                <p className='text-base cursor-pointer'>Shauryautsav</p>
                 {/* <p className='dropdown-menu'>E-Resources</p>
                 <p>Library</p>
                 <p>Directory</p>
