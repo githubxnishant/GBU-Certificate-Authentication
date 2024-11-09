@@ -4,11 +4,11 @@ const Header = () => {
   return (
     <>
     <div>
-        <div className='flex justify-between items-center text-white text-base px-20 h-10 bg-[#78335d] color-white'>
+        <div className='flex justify-between items-center text-white text-sm px-20 h-10 bg-[#78335d] color-white'>
             <h1 className='cursor-pointer ml-20'>GBU Certificate Authentication</h1>
             <div className='mr-20'>
                 <ul className='flex gap-3'>
-                    <li><a className='cursor-pointer' href='https://www.gbu.ac.in/' target='_blank'>Main Website</a></li>|
+                    <li><a className='cursor-pointer' href='https://www.gbu.ac.in/' target='_blank'>Main Website</a></li>
                     <li><a className='cursor-pointer' href='https://www.gbu.ac.in/page/events' target='_blank'>Events</a></li>
                 </ul>
             </div>
