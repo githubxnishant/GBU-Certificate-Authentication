@@ -12,8 +12,11 @@ const ValidContent = () => {
                         <div className='w-[85%] h-[60%] bg-white border-2 border-black rounded flex items-center justify-center shadow-md'>
                             <h1>Certificate Image Here</h1>
                         </div>
-                        <div className='w-[85%] h-1/4 bg-white border-2 border-black rounded text-sm shadow-md'>
-                            <p className='h-full flex justify-center items-center text-center'>The certificate with ID *CERTIFICATEID is valid for *NAME issued on *DATE at Abhivyanjana’24</p>
+                        <div className='w-[85%] h-auto bg-white border-2 border-black rounded text-sm shadow-md'>
+                            <p className='h-full flex justify-center items-center text-center p-2'>The certificate with ID *CERTIFICATEID is valid for *NAME Lorem ipsum dolor adipisicing elit. Corporis, impedit? issued on *DATE at Abhivyanjana’24</p>
+                        </div>
+                        <div>
+                            <button className='border-2 border-black bg-emerald-400 rounded-xl shadow-md px-10 py-1'>Download Certificate</button>
                         </div>
                     </div>
                 </div>

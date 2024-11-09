@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ErrorContent = () => {
+const ErrorContent = ({ authenticateCertificate }) => {
     return (
         <>
             <div className='absolute'>
@@ -16,8 +16,7 @@ const ErrorContent = () => {
                             <h1 className='font-medium text-xl'>GBU Certificate Authentication</h1>
                         </div>
                         <div className='w-[85%] h-1/3 bg-white border-2 border-black rounded text-sm shadow-md'>
-                            <p className='h-full flex justify-center items-center text-center'>The Certificate with *CERTIFICATEID is
-                            not valid</p>
+                            <p className='h-full flex justify-center items-center text-center'>The Certificate with ID { authenticateCertificate } *CertificateID is not valid</p>
                         </div>
                     </div>
                 </div>

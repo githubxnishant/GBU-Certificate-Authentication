@@ -1,14 +1,22 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import Home from './Pages/Home.jsx'
-// import Validation from './Pages/Validation.jsx'
-// import Error from './Pages/Error.jsx'
+import App from './App.jsx'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+
+
+let allRoutes = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <App />,
+    }
+  ]
+) 
+
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Home />
-    {/* <Validation /> */}
-    {/* <Error /> */}
+    <RouterProvider router={allRoutes}/>
   </StrictMode>
 )
