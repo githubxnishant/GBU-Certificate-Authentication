@@ -15,12 +15,12 @@ const ErrorContent = ({ setCertificate, sharedID }) => {
                         <div className='w-full h-[10%] flex justify-center items-center res:h-auto'>
                             <h1 className='font-medium text-xl res:text-center res:text-base'>GBU Certificate Authentication</h1>
                         </div>
-                        <div className='w-[85%] h-1/4 bg-white border-2 border-black rounded text-sm shadow-md res:m-3 res:h-[20%]'>
+                        <div className='w-[85%] h-1/4 bg-white border-2 border-black rounded text-sm shadow-md m-4 res:m-3 res:h-[20%]'>
                             <p className='h-full flex justify-center items-center text-center px-2 res:text-xs'>The Certificate with ID #{sharedID} is not valid.</p>
                         </div>
                         <button 
                         onClick={() => setCertificate(null)}
-                        className='border-2 border-black bg-emerald-400 rounded-xl shadow-md mt-5 px-10 py-1 res:m-0 res:text-sm'>Go Back</button>
+                        className='border-2 border-black bg-emerald-400 rounded-xl shadow-md px-10 py-1 res:text-sm'>Go Back</button>
                     </div>
                 </div>
             </div>
