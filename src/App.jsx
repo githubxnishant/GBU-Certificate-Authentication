@@ -7,6 +7,7 @@ import Footer from './Components/Footer';
 
 const App = () => {
     const [certificate, setCertificate] = useState(null);
+    const [sharedID, setSharedID] = useState('')
 
     const authenticateCertificate = (id) => {
         if (id === "123") {
@@ -16,12 +17,16 @@ const App = () => {
         }
     };
 
+    const sendCertificateID = (ID) => {
+        setSharedID(ID);
+    }
+
     return (
         <>
             <Header />
-            {!certificate && <HomeContent authenticateCertificate={authenticateCertificate} />}
-            {certificate === 'valid' && <ValidContent setCertificate={setCertificate} />}
-            {certificate === 'notValid' && <ErrorContent setCertificate={setCertificate} />}
+            {!certificate && <HomeContent authenticateCertificate={authenticateCertificate} storeCertificateID={sendCertificateID}/>}
+            {certificate === 'valid' && <ValidContent setCertificate={setCertificate} sharedID={sharedID} />}
+            {certificate === 'notValid' && <ErrorContent setCertificate={setCertificate} sharedID={sharedID} />}
             <Footer />
         </>
     );

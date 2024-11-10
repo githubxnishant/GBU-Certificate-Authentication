@@ -9,6 +9,11 @@ export default {
       height: {
         'body-fit': 'calc(100vh - 10rem)',
       },
+      screens: {
+        'res' : {
+          'max' : '850px',
+        }
+      }
     },
   },
   plugins: [],
