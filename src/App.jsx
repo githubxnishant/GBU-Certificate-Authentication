@@ -20,12 +20,11 @@ const App = () => {
         <>
             <Header />
             {!certificate && <HomeContent authenticateCertificate={authenticateCertificate} />}
-            {certificate === 'valid' && <ValidContent />}
-            {certificate === 'notValid' && <ErrorContent />}
+            {certificate === 'valid' && <ValidContent setCertificate={setCertificate} />}
+            {certificate === 'notValid' && <ErrorContent setCertificate={setCertificate} />}
             <Footer />
         </>
     );
 };
 
 export default App;
-

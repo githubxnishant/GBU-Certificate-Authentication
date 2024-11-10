@@ -1,6 +1,5 @@
-import React from 'react'
-import { createBrowserRouter, Link, RouterProvider } from 'react-router-dom'
-import { createRoot } from 'react-dom/client'
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
     return (
@@ -22,15 +21,10 @@ const Header = () => {
                     src="/Images/fulllogogbu.png" />
                 </a>
                 <div className='flex gap-8 mr-20'>
-                    <p className='text-base cursor-pointer'><Link to={'/'}>Home</Link></p>
+                    <p className='text-base cursor-pointer'><Link to='/'>Home</Link></p>
                     <p className='text-base cursor-pointer'>Abhivyanjana</p>
                     <p className='text-base cursor-pointer'>Glitch</p>
                     <p className='text-base cursor-pointer'>Shauryautsav</p>
-                    {/* <p className='dropdown-menu'>E-Resources</p>
-                    <p>Library</p>
-                    <p>Directory</p>
-                    <p>Publications</p> */}
-                    {/* <p><DarkToggle /></p> */}
                 </div>
             </div>
         </div>

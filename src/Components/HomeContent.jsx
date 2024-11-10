@@ -32,6 +32,7 @@ const HomeContent = ({ authenticateCertificate }) => {
                                     onChange={(e) => setCertificateID(e.target.value)}
                                     required
                                     type="text"
+                                    maxLength={3}
                                     placeholder='Certificate ID'
                                     className='rounded-xl h-10 w-64 m-3 text-center shadow-md border-2 border-black' />
                                 <button className='border-2 border-black bg-emerald-400 rounded-xl shadow-md px-10 py-1'>Verify</button>
