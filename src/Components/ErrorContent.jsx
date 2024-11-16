@@ -3,11 +3,8 @@ import React from 'react'
 const ErrorContent = ({ setCertificate, sharedID }) => {
     return (
         <>        
-            <div className='absolute'>
-                <img src="/Images/Gautam_Buddha_University.jpg" alt="" className='relative -top-96 -z-10 res:object-cover res:h-screen res:w-auto res:-top-24'/>
-            </div>
             <div className='w-screen h-body-fit flex justify-center items-center'>
-            <div className='w-[30%] h-[70%] bg-[#d9d9d9] border-2 border-black rounded-xl flex items-center justify-center opacity-90 res:w-2/3 res:h-72'>
+                <div className='w-[30%] h-[70%] bg-[#d9d9d9] border-2 border-black rounded-xl flex items-center justify-center opacity-90 res:w-2/3 res:h-72'>
                     <div className='w-[95%] h-[90%] place-items-center res:w-[90%]'>
                         <div className='w-full h-[40%] flex justify-center items-center flex-col res:h-[35%]'>
                             <img src="/Images/gbu_logo.png" alt="" className='w-28 h-28 res:h-20 res:w-20' />

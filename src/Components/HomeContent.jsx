@@ -16,12 +16,6 @@ const HomeContent = ({ authenticateCertificate, storeCertificateID }) => {
 
     return (
         <>
-            {/* <div className='absolute res:w-screen res:fixed res:-z-10'>
-                <img src="/Images/Gautam_Buddha_University.jpg" alt="" className='relative -top-96 -z-10 res:object-cover res:h-screen res:w-auto res:static res:-z-10' />
-            </div> */}
-            <div className='absolute'>
-                <img src="/Images/Gautam_Buddha_University.jpg" alt="" className='relative -top-96 -z-10 res:object-cover res:h-screen res:w-auto res:-top-24'/>
-            </div>
             <div className='w-screen h-body-fit flex justify-center items-center res:h-res'>
                 <div className='w-[30%] h-[70%] bg-[#d9d9d9] border-2 border-black rounded-xl flex items-center justify-center opacity-90 res:w-2/3 res:h-72'>
                     <div className='w-[95%] h-[90%] place-items-center res:w-[90%]'>

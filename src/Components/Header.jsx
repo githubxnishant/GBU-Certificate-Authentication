@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
     return (
@@ -20,7 +21,7 @@ const Header = () => {
                     src="/Images/fulllogogbu.png" />
                 </a>
                 <div className='flex gap-8 mr-20 res:hidden'>
-                    <p className='text-base cursor-pointer'>Home</p>
+                    <p className='text-base cursor-pointer'><Link to={'/'}>Home</Link></p>
                     <p className='text-base cursor-pointer'>Abhivyanjana</p>
                     <p className='text-base cursor-pointer'>Glitch</p>
                     <p className='text-base cursor-pointer'>Shauryautsav</p>
