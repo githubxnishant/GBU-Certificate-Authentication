@@ -3,11 +3,13 @@ import { Link } from 'react-router-dom';
 import type { AppDispatch, RootState } from '../store/store';
 import { toggleMenu } from '../store/menuSlice';
 import { setTab } from '../store/tabSlice';
-import { Power } from 'lucide-react';
+import { Logs, Power } from 'lucide-react';
+import { logout } from '../store/adminSlice';
 
 const SideNav = () => {
 
     const menu = useSelector((state: RootState) => state.menu.isOpen);
+    const admin = useSelector((state: RootState) => state.admin.user);
     const activeTab: string = useSelector((state: RootState) => state.tab.activeTab);
     const dispatch = useDispatch<AppDispatch>();
 
@@ -21,11 +23,13 @@ const SideNav = () => {
 
                 {/* GBU Logo Side Nav */}
                 <div className={`border-b border-[#d9d9d9] h-[10vh] w-full flex items-center px-5 ${menu ? 'justify-center' : 'justify-between'}`}>
-                    <img className={`h-10 transition-all duration-300 ${menu ? 'hidden' : ''}`} src="/Images/fulllogogbu.png" />
+                    <Link to={'/'}>
+                        <img className={`h-10 transition-all duration-300 ${menu ? 'hidden' : ''}`} src="/Images/fulllogogbu.png" />
+                    </Link>
                     <button className="cursor-pointer" value={menu.toString()} onClick={() => dispatch(toggleMenu())}>
                         {menu ?
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
+                                <path fillRule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
                             </svg>
                             :
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
@@ -61,6 +65,16 @@ const SideNav = () => {
                                 </div>}
                         </button>
                     </Link>
+                    <Link to={'/logs'}>
+                        <button onClick={() => tabToggle('logs')} className={`w-full flex justify-center mt-5 cursor-pointer `}>
+                            {menu ?
+                                <Logs />
+                                :
+                                <div className="w-full flex justify-center items-center gap-3">
+                                    <h1 className={`${activeTab === 'logs' ? 'text-black font-bold' : ''}`}>Logs</h1>
+                                </div>}
+                        </button>
+                    </Link>
                 </div>
 
                 {/* Bottom Menu Nav Links */}
@@ -69,42 +83,19 @@ const SideNav = () => {
                         ? <div className="flex items-center justify-between mt-2 bg-[#fff] border border-[#d9d9d9] w-full px-3 py-2 rounded-lg">
                             <div className="flex w-full items-center justify-between gap-2">
                                 <div className="flex gap-2 items-center justify-center">
-                                    <div className="bg-[#d9d9d9] text-black border rounded-full w-7 h-7 flex items-center justify-center font-bold text-lg"> N </div>
+                                    <div className="bg-[#d9d9d9] text-black border rounded-full w-7 h-7 flex items-center justify-center font-bold text-lg"> {admin?.name.charAt(0)} </div>
                                     <div>
-                                        <p className="text-sm font-semibold">Nishant Chauhan</p>
-                                        <p className="text-xs">235UCD038</p>
+                                        <p className="text-sm font-semibold">{admin?.name}</p>
+                                        <p className="text-xs">{admin?.username}</p>
                                     </div>
                                 </div>
-                                <button className='rounded hover:bg-[#f8f9fa] transition-all duration-300 '>
+                                <button onClick={() => logout(dispatch)} className='rounded hover:bg-[#f8f9fa] transition-all duration-300 '>
                                     <Power size={16} className="text-gray-400 p-2 h-full w-full hover:text-red-400 cursor-pointer transition-all duration-300" />
                                 </button>
                             </div>
                         </div>
-                        : <div className="bg-[#d9d9d9] text-black border cursor-not-allowed rounded-full w-7 h-7 flex items-center justify-center font-bold text-lg"> N </div>
+                        : <div className="bg-[#d9d9d9] text-black border cursor-not-allowed rounded-full w-7 h-7 flex items-center justify-center font-bold text-lg">{admin?.name.charAt(0)}</div>
                     }
-                    {/* <div onClick={() => tabToggle('profile')} className={`w-full flex justify-center cursor-pointer`}>
-                        {menu ?
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
-                                <path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
-                            </svg>
-                            :
-                            <div className="w-full flex justify-center items-center gap-3">
-                                <h1 className={`${activeTab === 'profile' ? 'text-black font-bold' : ''}`}>Profile</h1>
-                            </div>}
-                    </div> */}
-                    {/* <Link to={'/settings'}>
-                        <button onClick={() => tabToggle('settings')} className={`w-full flex justify-center cursor-pointer `}>
-                            {menu ?
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-                                    <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z" />
-                                </svg>
-                                :
-                                <div className="w-full flex justify-center items-center gap-3">
-                                    <h1 className={`${activeTab === 'settings' ? 'text-black font-bold' : ''}`}>Settings</h1>
-                                </div>}
-                        </button>
-                    </Link> */}
                 </div>
             </div>
         </>

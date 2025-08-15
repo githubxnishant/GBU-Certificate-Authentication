@@ -12,7 +12,7 @@ export const verifyToken = (req, res, next) => {
             if (err) {
                 return res.status(403).json({ success: false, message: "Invalid or expired token" });
             }
-            req.user = decoded; // contains { id: ... }
+            req.user = decoded; 
             next();
         });
     } catch (error) {

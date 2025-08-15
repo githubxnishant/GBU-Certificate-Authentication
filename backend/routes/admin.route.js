@@ -1,5 +1,5 @@
 import express from 'express';
-import { adminLogin, adminRegister, adminVerify } from '../controllers/admin.controller.js';
+import { adminLogin, adminRegister, adminStats, adminVerify } from '../controllers/admin.controller.js';
 import { verifyToken } from '../middlewares/auth.middleware.js';
 
 const router = express.Router();
@@ -7,6 +7,7 @@ const router = express.Router();
 router.post('/signup', adminRegister);
 router.post('/login', adminLogin);
 router.get('/verify', verifyToken, adminVerify);
+router.get('/stats', adminStats);
 
 router.get("/dashboard", verifyToken, (req, res) => {
     res.json({ success: true, message: "Welcome to the dashboard", user: req.user });

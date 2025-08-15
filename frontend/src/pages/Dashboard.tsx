@@ -1,40 +1,48 @@
-import { useSelector } from "react-redux"
-import Footer from "../components/Footer"
-import Header from "../components/Header"
+import { useDispatch, useSelector } from "react-redux"
+import Footer from "../components/Admin/Footer"
+import Header from "../components/Admin/Header"
 import SideNav from "../utils/SideNav"
 import type { RootState } from "../store/store"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import axios from "axios"
+import { setAdmin } from '../store/adminSlice'
+import { toast } from "react-toastify"
+import DesktopOnly from "../utils/DesktopView"
 
 interface FormData {
     certificateId: string;
     studentName: string;
     fest: string;
-    year: string;
+    date: Date;
     category: string;
     rollNo: string;
+    event: string;
 }
 
 const Dashboard = () => {
 
+    const dispatch = useDispatch();
+
+    const [adminCount, setAdminCount] = useState(0);
+    const [websiteVisits, setWebsiteVisits] = useState(0);
+    const [certificateCount, setCertificateCount] = useState(0);
     const [form, setForm] = useState<FormData>({
         certificateId: "",
         studentName: "",
-        fest: "",
-        year: "",
-        category: "",
         rollNo: "",
+        fest: "",
+        date: new Date(),
+        event: "",
+        category: ""
     });
 
-    const categories = [
-        "Coordinators",
-        "Participants",
-        "Volunteers",
-        "Winners",
-    ];
 
+    const categories = ["Coordinators", "Participants", "Volunteers"];
     const fests = ["Abhivyanjana", "Shauryautsav", "TechFest"];
 
     const menu = useSelector((state: RootState) => state.menu.isOpen)
+    const admin = useSelector((state: RootState) => state.admin.user);
+    const count = useSelector((state: RootState) => state.verify.count);
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -43,12 +51,102 @@ const Dashboard = () => {
         setForm((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log("Form submitted:", form);
+        try {
+            const res = await axios.post(
+                `${import.meta.env.VITE_BACKEND_URL}/certificate/create`,
+                form
+            );
+
+            if (res.data.success) {
+                toast.success("Certificate created successfully!");
+                setForm({
+                    certificateId: "",
+                    studentName: "",
+                    rollNo: "",
+                    fest: "",
+                    date: new Date(),
+                    event: "",
+                    category: ""
+                });
+            } else {
+                toast.error(res.data.message || "Failed to create certificate.");
+            }
+        } catch (error: any) {
+            if (error.response) {
+                const status = error.response.status;
+                const message = error.response.data?.message || "Server error occurred!";
+
+                if (status === 409) {
+                    toast.error("Certificate already exists!");
+                    console.log("Certificate already exists:", error.response.data);
+                } else if (status === 400) {
+                    toast.error(message);
+                    console.log("Validation error:", error.response.data);
+                } else {
+                    toast.error(message);
+                    console.log("Server error:", error.response.data);
+                }
+            } else {
+                toast.error("Network error or server unreachable!");
+                console.log(error);
+            }
+        }
     };
 
-    return (
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const path = window.location.pathname;
+                const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/stats`)
+                const visits = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/visits`, {
+                    params: { path },
+                });
+    const views = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/certificate/views`)
+    if (!res) {
+        console.log(res)
+        return toast.error('Data fetch failed!');
+    }
+    setAdminCount(res.data.totalAdmins)
+    setWebsiteVisits(visits.data.visits)
+    setCertificateCount(views.data.certificatesIssued)
+} catch (error) {
+    console.log('Error fetching stat data - frontend', error);
+    toast.error('Error fetching Stat Cards data!')
+}
+        }
+fetchData()
+    }, [])
+
+useEffect(() => {
+    const token = localStorage.getItem("token");
+    axios.get(`${import.meta.env.VITE_BACKEND_URL}/dashboard`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+        .catch(err => {
+            console.error("Access denied", err);
+        });
+}, [])
+
+useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    axios.get(`${import.meta.env.VITE_BACKEND_URL}/verify`, {
+        headers: { Authorization: `Bearer ${token}` }
+    })
+        .then(res => {
+            dispatch(setAdmin(res.data.user));
+        })
+        .catch(err => {
+            console.error("Failed to fetch user", err);
+        });
+}, [dispatch]);
+
+return (
+    <DesktopOnly>
         <div className="w-full h-full flex">
             <SideNav />
             <div className={`flex flex-col transition-all duration-300 ${!menu ? 'w-[80vw]' : 'w-[95vw]'}`}>
@@ -56,8 +154,8 @@ const Dashboard = () => {
                 <div className="h-[83vh] w-full flex justify-center px-10 py-5 items-center bg-[#f3f3f3]">
                     <div className="w-[70%] h-full">
                         <p className="text-2xl">Welcome back!</p>
-                        <p className="text-3xl font-semibold my-1">Nishant Chauhan</p>
-                        <p className="text-xl font-light">235UCD038</p>
+                        <p className="text-3xl font-semibold my-1">{admin?.name}</p>
+                        <p className="text-xl font-light">{admin?.username}</p>
                         <div className="mt-5 h-auto rounded max-h-[58vh] w-full border border-[#d9d9d9] bg-white py-5 px-5">
                             <div className="flex">
                                 <button className="px-3 py-1 border border-[#d9d9d9] rounded mr-3 cursor-pointer">Add Card</button>
@@ -70,21 +168,6 @@ const Dashboard = () => {
                                     className="bg-white p-6 rounded-lg max-w-3xl mx-auto"
                                 >
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        {/* Roll no */}
-                                        <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                                Roll no
-                                            </label>
-                                            <input
-                                                type="text"
-                                                name="rollNo"
-                                                value={form.rollNo}
-                                                onChange={handleChange}
-                                                required
-                                                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                            />
-                                        </div>
-
                                         {/* Student Name */}
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -94,6 +177,21 @@ const Dashboard = () => {
                                                 type="text"
                                                 name="studentName"
                                                 value={form.studentName}
+                                                onChange={handleChange}
+                                                required
+                                                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            />
+                                        </div>
+
+                                        {/* Roll no */}
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                                Roll no
+                                            </label>
+                                            <input
+                                                type="text"
+                                                name="rollNo"
+                                                value={form.rollNo}
                                                 onChange={handleChange}
                                                 required
                                                 className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -113,6 +211,44 @@ const Dashboard = () => {
                                                 required
                                                 className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                                             />
+                                        </div>
+
+                                        {/* Event */}
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                                Event
+                                            </label>
+                                            <input
+                                                type="text"
+                                                name="event"
+                                                value={form.event}
+                                                onChange={handleChange}
+                                                required
+                                                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                                        {/* Fest */}
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                                Fest
+                                            </label>
+                                            <select
+                                                name="fest"
+                                                value={form.fest}
+                                                onChange={handleChange}
+                                                required
+                                                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            >
+                                                <option value="">Select Fest</option>
+                                                {fests.map((fest) => (
+                                                    <option key={fest} value={fest}>
+                                                        {fest}
+                                                    </option>
+                                                ))}
+                                            </select>
                                         </div>
 
                                         {/* Category */}
@@ -136,39 +272,20 @@ const Dashboard = () => {
                                             </select>
                                         </div>
 
-                                        {/* Fest */}
+                                        {/* Date */}
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                                Fest
-                                            </label>
-                                            <select
-                                                name="fest"
-                                                value={form.fest}
-                                                onChange={handleChange}
-                                                required
-                                                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                            >
-                                                <option value="">Select Fest</option>
-                                                {fests.map((fest) => (
-                                                    <option key={fest} value={fest}>
-                                                        {fest}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                        </div>
-
-                                        {/* Year */}
-                                        <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                                Year
+                                                Date
                                             </label>
                                             <input
-                                                type="number"
-                                                name="year"
-                                                value={form.year}
+                                                type="date"
+                                                name="date"
+                                                value={
+                                                    form.date instanceof Date
+                                                        ? form.date.toISOString().split("T")[0]
+                                                        : form.date
+                                                }
                                                 onChange={handleChange}
-                                                min="2000"
-                                                max="2099"
                                                 required
                                                 className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                                             />
@@ -197,20 +314,21 @@ const Dashboard = () => {
                     <div className="w-[30%] h-full">
                         <p className="text-3xl mx-7 my-3">Stats</p>
                         <div className="flex justify-center flex-col flex-wrap items-center">
-                            <StatCard stat={'5'} title={'Fest Conducted'} />
-                            <StatCard stat={'150'} title={'Certificates Issued'} />
-                            <StatCard stat={'100'} title={'Certificates Verified'} />
-                            <StatCard stat={'200'} title={'Websites Visitors'} />
+                            <StatCard stat={adminCount} title={'Admins Assigned'} />
+                            <StatCard stat={certificateCount} title={'Certificates Issued'} />
+                            <StatCard stat={count} title={'Certificates Verified'} />
+                            <StatCard stat={websiteVisits} title={'Websites Visitors'} />
                         </div>
                     </div>
                 </div>
                 <Footer />
             </div>
         </div>
-    )
+    </DesktopOnly>
+)
 }
 
-const StatCard = ({ stat, title }: { stat: string, title: string }) => {
+const StatCard = ({ stat, title }: { stat: number, title: string }) => {
     return (
         <div className="h-26 my-2.5 w-6/7 rounded bg-white border border-[#d9d9d9] px-5 py-3">
             <h1 className="text-3xl font-semibold">{stat}+</h1>

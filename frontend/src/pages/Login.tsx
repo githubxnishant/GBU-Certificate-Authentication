@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { Eye, EyeClosed } from "lucide-react";
 
 const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [viewPassword, setViewPassword] = useState(false)
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
@@ -13,19 +15,32 @@ const Login = () => {
         e.preventDefault();
         setError("");
         try {
-            const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/login`,
-                { username, password },
-            );
-            if (!res) { return toast.error("Invalid Credentials!") }
+            const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/login`, { username, password });
+            if (!res) { return toast.error("Error signing in. Please try again!") }
             localStorage.setItem("token", res.data.token);
             toast.success("Login Succesfully. Redirecting to Dashboard!")
             setTimeout(() => {
                 navigate("/dashboard");
             }, 2000);
-        } catch (err) {
-            console.log(err)
-            toast.error("Error in login process!",)
+        } catch (err: any) {
+            if (err.response) {
+                if (err.response.status === 400) {
+                    toast.error('Kindly fill all the fields!');
+                    return console.log('Kindly fill all the fields!', err);
+                } else if (err.response.status === 403) {
+                    toast.error('Invalid Credentials!');
+                    return console.log('Invalid Credentials!', err);
+                } else if (err.response.status === 404) {
+                    toast.error('Admin not found!');
+                    return console.log('Admin not found!', err);
+                } else toast.error("Error in login process!");
+            } else {
+                toast.error("Network error! Please try again.");
+            }
+            console.log('Error in login process', err)
             setError("Login failed");
+            setUsername('');
+            setPassword('');
         }
     };
 
@@ -33,11 +48,13 @@ const Login = () => {
         <div className="flex justify-center items-center min-h-screen bg-gray-100">
             <div className="bg-white p-8 rounded-lg shadow-lg w-96">
                 <div className="flex flex-col items-center mb-4">
-                    <img
-                        src="/Images/gbu_logo.png"
-                        alt="University Logo"
-                        className="h-16 mb-2"
-                    />
+                    <Link to={'/'}>
+                        <img
+                            src="/Images/gbu_logo.png"
+                            alt="University Logo"
+                            className="h-16 mb-2"
+                        />
+                    </Link>
                     <h2 className="text-2xl mb-3 font-semibold">Login</h2>
                     <p className="text-gray-500 text-sm">Sign in to continue to Admin Dashboard</p>
                 </div>
@@ -50,21 +67,31 @@ const Login = () => {
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         type="text"
+                        maxLength={9}
                         placeholder="Username"
-                        className="w-full px-4 py-2 border rounded-lg mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-4 py-2 border rounded-lg mb-3 focus:outline-none"
                     />
-                    <input
-                        required
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        type="password"
-                        placeholder="Password"
-                        className="w-full px-4 py-2 border rounded-lg mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
+                    <div className="flex justify-between items-center border rounded-lg mb-2">
+                        <input
+                            required
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            type={!viewPassword ? 'password' : 'text'}
+                            placeholder="Password"
+                            maxLength={10}
+                            className="w-[90%] px-4 py-2 focus:outline-none"
+                        />
+                        <button className='cursor-pointer mr-3' type='button' onClick={() => setViewPassword(!viewPassword)}>
+                            {viewPassword
+                                ? <Eye />
+                                : <EyeClosed />
+                            }
+                        </button>
+                    </div>
 
                     <button
                         type="submit"
-                        className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
+                        className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 cursor-pointer"
                     >
                         Login
                     </button>

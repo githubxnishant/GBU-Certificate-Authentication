@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Eye, EyeClosed } from "lucide-react";
@@ -26,7 +26,7 @@ const Signup = () => {
                 navigate("/dashboard");
             }, 2000);
         } catch (err: any) {
-            if(err.response.status === 409) {
+            if (err.response.status === 409) {
                 toast.error('Admin credentials already exists');
                 return console.log('Admin credentials already exists');
             }
@@ -42,11 +42,13 @@ const Signup = () => {
         <div className="flex justify-center items-center min-h-screen bg-gray-100">
             <div className="bg-white p-8 rounded-lg shadow-lg w-96">
                 <div className="flex flex-col items-center mb-4">
-                    <img
-                        src="/Images/gbu_logo.png"
-                        alt="University Logo"
-                        className="h-16 mb-2"
-                    />
+                    <Link to={'/'}>
+                        <img
+                            src="/Images/gbu_logo.png"
+                            alt="University Logo"
+                            className="h-16 mb-2"
+                        />
+                    </Link>
                     <h2 className="text-2xl mb-3 font-semibold">Login</h2>
                     <p className="text-gray-500 text-sm">Sign in to continue to Admin Dashboard</p>
                 </div>
@@ -67,6 +69,7 @@ const Signup = () => {
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         type="text"
+                        maxLength={9}
                         placeholder="Username"
                         className="w-full px-4 py-2 border rounded-lg mb-3 focus:outline-none"
                     />
@@ -74,6 +77,7 @@ const Signup = () => {
                         <input
                             required
                             value={password}
+                            maxLength={10}
                             onChange={(e) => setPassword(e.target.value)}
                             type={!viewPassword ? 'password' : 'text'}
                             placeholder="Password"

@@ -38,7 +38,7 @@ export const adminRegister = async (req, res) => {
         res.status(400).json({
             success: false,
             message: "Admin registering API crashed",
-            error
+            error: error.message
         })
     }
 };
@@ -84,6 +84,7 @@ export const adminLogin = async (req, res) => {
         return res.status(500).json({
             success: false,
             message: "User authentication API crashed - backend",
+            error: error.message
         });
     }
 };
@@ -97,6 +98,26 @@ export const adminVerify = async (req, res) => {
         res.json({ success: true, user });
     } catch (error) {
         console.error("Error fetching user:", error);
-        res.status(500).json({ success: false, message: "Failed to fetch user" });
+        res.status(500).json({
+            success: false,
+            message: "Failed to fetch user",
+            error: error.message
+        });
+    }
+};
+
+export const adminStats = async (req, res) => {
+    try {
+        const totalAdmins = await adminModel.countDocuments();
+        res.status(200).json({
+            success: true,
+            totalAdmins
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Admin stats API crashed - backend',
+            error: error.message
+        });
     }
 };

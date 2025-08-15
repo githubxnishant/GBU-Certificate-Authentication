@@ -1,22 +1,45 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
-import './index.css'
+import './globals.css'
 import Records from './pages/Records'
-// import Settings from './pages/Settings'
+import Signup from './pages/Signup'
+import { ToastContainer } from 'react-toastify'
+import ProtectedRoute from './context/ProtectedRoute'
+import Homepage from './pages/Homepage'
+import Logs from './pages/Logs'
+import CertificateDetails from './pages/CertificateDetails'
 
 function App() {
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='*' element={<Dashboard />} />
-        <Route path='/auth' element={<Login />} />
-        <Route path='/dashboard' element={<Dashboard />} />
-        <Route path='/records' element={<Records />} />
-        {/* <Route path='/settings' element={<Settings />} /> */}
-      </Routes>
-    </BrowserRouter>
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path='*' element={<Homepage />} />
+          <Route path='/' element={<Homepage />} />
+          <Route path="/certificate/:certificateId" element={<CertificateDetails />} />
+          <Route path='/signup' element={<Signup />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/dashboard' element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          } />
+          <Route path='/records' element={
+            <ProtectedRoute>
+              <Records />
+            </ProtectedRoute>
+          } />
+          <Route path='/logs' element={
+            <ProtectedRoute>
+              <Logs />
+            </ProtectedRoute>
+          } />
+        </Routes>
+      </BrowserRouter>
+      <ToastContainer />
+    </>
   )
 }
 
