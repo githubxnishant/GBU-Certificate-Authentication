@@ -2,10 +2,6 @@
 
 **A web application to validate and manage certificates issued by GBU.**
 
-GBU Certificate Authentication allows admins to create certificates, track website traffic, and enables users to verify the authenticity of certificates online.
-
-
-
 ## Table of Contents
 
 1. [Features](#features)  
