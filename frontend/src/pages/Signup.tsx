@@ -49,8 +49,8 @@ const Signup = () => {
                             className="h-16 mb-2"
                         />
                     </Link>
-                    <h2 className="text-2xl mb-3 font-semibold">Login</h2>
-                    <p className="text-gray-500 text-sm">Sign in to continue to Admin Dashboard</p>
+                    <h2 className="text-2xl mb-3 font-semibold">Signup</h2>
+                    <p className="text-gray-500 text-zsm">Sign up to continue to Admin Dashboard</p>
                 </div>
 
                 {error && <p className="text-red-500 text-sm mb-3">{error}</p>}

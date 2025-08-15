@@ -3,7 +3,7 @@ import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import './globals.css'
 import Records from './pages/Records'
-import Signup from './pages/Signup'
+// import Signup from './pages/Signup'
 import { ToastContainer } from 'react-toastify'
 import ProtectedRoute from './context/ProtectedRoute'
 import Homepage from './pages/Homepage'
@@ -19,7 +19,7 @@ function App() {
           <Route path='*' element={<Homepage />} />
           <Route path='/' element={<Homepage />} />
           <Route path="/certificate/:certificateId" element={<CertificateDetails />} />
-          <Route path='/signup' element={<Signup />} />
+          {/* <Route path='/signup' element={<Signup />} /> */}
           <Route path='/login' element={<Login />} />
           <Route path='/dashboard' element={
             <ProtectedRoute>
