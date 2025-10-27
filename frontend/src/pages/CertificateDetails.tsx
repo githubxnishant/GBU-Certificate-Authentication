@@ -80,7 +80,7 @@ const CertificateDetails = () => {
                                         <p><span className="font-semibold text-gray-700">Student Name:</span> <span className="text-gray-900">{certificate.studentName}</span></p>
                                         <p><span className="font-semibold text-gray-700">Roll No:</span> <span className="text-gray-900">{certificate.rollNo}</span></p>
                                         <p><span className="font-semibold text-gray-700">Fest:</span> <span className="text-gray-900">{certificate.fest}</span></p>
-                                        <p><span className="font-semibold text-gray-700">Date:</span> <span className="text-gray-900">{new Date(certificate.date).toLocaleDateString("en-us")}</span></p>
+                                        <p><span className="font-semibold text-gray-700">Date:</span> <span className="text-gray-900">{new Date(certificate.date).toLocaleDateString("en-GB")}</span></p>
                                         <p><span className="font-semibold text-gray-700">Event:</span> <span className="text-gray-900">{certificate.event}</span></p>
                                         <p><span className="font-semibold text-gray-700">Category:</span> <span className="text-gray-900">{certificate.category}</span></p>
                                         <p><span className="font-semibold text-gray-700">Authenticity:</span>

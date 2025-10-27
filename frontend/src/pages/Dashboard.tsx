@@ -26,6 +26,8 @@ const Dashboard = () => {
     const navigate = useNavigate();
 
     const [websiteVisits, setWebsiteVisits] = useState(0);
+    const [file, setFile] = useState(null);
+    const [uploading, setUploading] = useState(false);
     const [certificateCount, setCertificateCount] = useState(0);
     const [form, setForm] = useState<FormData>({
         certificateId: "",
@@ -36,7 +38,6 @@ const Dashboard = () => {
         event: "",
         category: ""
     });
-
 
     const categories = ["Coordinators", "Participants", "Volunteers"];
     const fests = ["Abhivyanjana", "Shauryautsav", "TechFest"];
@@ -97,6 +98,36 @@ const Dashboard = () => {
         }
     };
 
+    const handleFileChange = async (e: any) => {
+        const selected = e.target.files[0];
+        if (!selected) return;
+        setFile(selected);
+        handleUpload(selected);
+    }
+
+    const handleUpload = async (selectedFile: any) => {
+        setUploading(true);
+        const formData = new FormData();
+        formData.append("file", selectedFile);
+        try {
+            const res = await axios.post(
+                `${import.meta.env.VITE_BACKEND_URL}/certificate/upload`,
+                formData,
+                { headers: { "Content-Type": "multipart/form-data" } }
+            );
+            const { insertedCount, duplicateCount } = res.data;
+
+            alert(
+                `File uploaded successfully.\nRecords inserted: ${insertedCount}\nDuplicates found: ${duplicateCount}`
+            );
+        } catch (err) {
+            console.error(err);
+            alert("File upload failed");
+        } finally {
+            setUploading(false);
+        }
+    };
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -146,7 +177,7 @@ const Dashboard = () => {
                     dispatch(clearAdmin());
                     localStorage.removeItem('token');
                     toast.info('Session expired, please login again!')
-                    navigate('/login')
+                    navigate('/login');
                 }, expiry);
             })
             .catch(err => {
@@ -305,9 +336,19 @@ const Dashboard = () => {
                                         <div className="flex justify-end mt-6 gap-3">
                                             <button
                                                 type="button"
-                                                className="bg-blue-600 text-white px-5 py-2 rounded-md text-sm font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-not-allowed"
+                                                className={`bg-blue-600 text-white px-5 py-2 rounded-md text-sm font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500  ${uploading ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                                                onClick={() => {
+                                                    const input = document.createElement("input");
+                                                    input.type = "file";
+                                                    input.accept = ".csv,.xls,.xlsx";
+                                                    input.onchange = handleFileChange;
+                                                    input.click();
+                                                }}
                                             >
-                                                Upload Sheet
+                                                {!uploading
+                                                    ? "Upload Sheet"
+                                                    : "Loading..."
+                                                }
                                             </button>
                                             <button
                                                 type="submit"
