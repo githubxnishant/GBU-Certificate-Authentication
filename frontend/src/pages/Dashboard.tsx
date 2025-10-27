@@ -26,7 +26,6 @@ const Dashboard = () => {
     const navigate = useNavigate();
 
     const [websiteVisits, setWebsiteVisits] = useState(0);
-    const [file, setFile] = useState(null);
     const [uploading, setUploading] = useState(false);
     const [certificateCount, setCertificateCount] = useState(0);
     const [form, setForm] = useState<FormData>({
@@ -101,7 +100,6 @@ const Dashboard = () => {
     const handleFileChange = async (e: any) => {
         const selected = e.target.files[0];
         if (!selected) return;
-        setFile(selected);
         handleUpload(selected);
     }
 
