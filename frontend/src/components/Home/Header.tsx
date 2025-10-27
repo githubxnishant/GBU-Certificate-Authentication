@@ -41,9 +41,9 @@ const Header = () => {
                     </a>
                     <div className='md:flex gap-8 mr-20 hidden'>
                         <p className='text-base cursor-pointer'><Link to={'/'}>Home</Link></p>
-                        <p className='text-base cursor-pointer'>Abhivyanjana</p>
-                        <p className='text-base cursor-pointer'>Shauryautsav</p>
-                        <p className='text-base cursor-pointer'>TechFest</p>
+                        <a href='https://cultural-council.gbu.ac.in/abhivyanjana' target='_blank' className='text-base cursor-pointer'>Abhivyanjana</a>
+                        <a href='https://www.gbu.ac.in/page/sport-council' target='_blank' className='text-base cursor-pointer'>Shauryautsav</a>
+                        <a href='https://ignition.gbu.ac.in' target='_blank' className='text-base cursor-pointer'>TechFest</a>
                     </div>
                 </div>
             </div>

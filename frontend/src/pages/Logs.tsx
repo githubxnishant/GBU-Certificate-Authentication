@@ -4,7 +4,7 @@ import Header from "../components/Admin/Header"
 import SideNav from "../utils/SideNav"
 import type { RootState } from "../store/store"
 
-const Settings = () => {
+const Logs = () => {
 
     const menu = useSelector((state: RootState) => state.menu.isOpen)
 
@@ -22,4 +22,4 @@ const Settings = () => {
     )
 }
 
-export default Settings
+export default Logs

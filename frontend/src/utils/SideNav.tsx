@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import type { AppDispatch, RootState } from '../store/store';
 import { toggleMenu } from '../store/menuSlice';
 import { setTab } from '../store/tabSlice';
-import { Logs, Power } from 'lucide-react';
+import { Logs, Power, UsersRound } from 'lucide-react';
 import { logout } from '../store/adminSlice';
 
 const SideNav = () => {
@@ -65,6 +65,16 @@ const SideNav = () => {
                                 </div>}
                         </button>
                     </Link>
+                    <Link to={'/admins'}>
+                        <button onClick={() => tabToggle('admins')} className={`w-full flex justify-center mt-5 cursor-pointer `}>
+                            {menu ?
+                                <UsersRound />
+                                :
+                                <div className="w-full flex justify-center items-center gap-3">
+                                    <h1 className={`${activeTab === 'admins' ? 'text-black font-bold' : ''}`}>Admins</h1>
+                                </div>}
+                        </button>
+                    </Link>
                     <Link to={'/logs'}>
                         <button onClick={() => tabToggle('logs')} className={`w-full flex justify-center mt-5 cursor-pointer `}>
                             {menu ?
@@ -75,6 +85,7 @@ const SideNav = () => {
                                 </div>}
                         </button>
                     </Link>
+                    
                 </div>
 
                 {/* Bottom Menu Nav Links */}

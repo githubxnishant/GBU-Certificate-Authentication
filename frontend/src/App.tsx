@@ -9,6 +9,7 @@ import ProtectedRoute from './context/ProtectedRoute'
 import Homepage from './pages/Homepage'
 import Logs from './pages/Logs'
 import CertificateDetails from './pages/CertificateDetails'
+import Admins from './pages/Admins'
 
 function App() {
 
@@ -34,6 +35,11 @@ function App() {
           <Route path='/logs' element={
             <ProtectedRoute>
               <Logs />
+            </ProtectedRoute>
+          } />
+          <Route path='/admins' element={
+            <ProtectedRoute>
+              <Admins />
             </ProtectedRoute>
           } />
         </Routes>
