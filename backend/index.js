@@ -1,7 +1,7 @@
 import server from './server.js';
-import connectDB from './db.js';
+import { connectDB } from './db.js';
 
-connectDB();
+await connectDB();
 
 const PORT = process.env.PORT || 5000;
 

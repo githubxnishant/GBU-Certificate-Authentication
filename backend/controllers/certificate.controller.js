@@ -1,3 +1,4 @@
+import XLSX from 'xlsx'
 import certificateModel from "../models/certificate.model.js";
 
 export const createCertificate = async (req, res) => {
@@ -102,5 +103,74 @@ export const verifyCertificate = async (req, res) => {
     } catch (error) {
         console.log(error);
         res.status(500).json({ success: false, message: "Server error", error: error.message });
+    }
+};
+
+export const uploadCertificate = async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ error: "No file uploaded" });
+        }
+
+        // Parse Excel/CSV file
+        const workbook = XLSX.read(req.file.buffer, { type: "buffer" });
+        const sheetName = workbook.SheetNames[0];
+        const rows = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+
+        if (rows.length === 0) {
+            return res.status(400).json({ error: "Sheet is empty" });
+        }
+
+        // Fields allowed by schema
+        const allowedFields = [
+            "certificateId",
+            "studentName",
+            "rollNo",
+            "fest",
+            "date",
+            "event",
+            "category",
+        ];
+
+        // Format input rows to match schema fields
+        const formatted = rows.map((row) => {
+            const record = {};
+            allowedFields.forEach((key) => {
+                if (row[key] !== undefined) record[key] = row[key];
+            });
+            return record;
+        });
+
+        // Collect all certificate IDs
+        const allIds = formatted.map((item) => item.certificateId);
+
+        // Find existing certificate IDs in DB
+        const existingDocs = await certificateModel.find(
+            { certificateId: { $in: allIds } },
+            { certificateId: 1, _id: 0 }
+        );
+
+        const existingIds = existingDocs.map((doc) => doc.certificateId);
+
+        // Filter out duplicates before inserting
+        const newRecords = formatted.filter(
+            (item) => !existingIds.includes(item.certificateId)
+        );
+
+        // Insert only new records
+        let insertedCount = 0;
+        if (newRecords.length > 0) {
+            const inserted = await certificateModel.insertMany(newRecords, { ordered: false });
+            insertedCount = inserted.length;
+        }
+        res.json({
+            message: "Upload completed.",
+            insertedCount,
+            duplicates: existingIds,
+            duplicateCount: existingIds.length,
+        });
+    } catch (err) {
+        console.error("Error in uploadCertificates:", err);
+        res.status(500).json({ error: "File processing failed" });
     }
 };

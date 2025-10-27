@@ -29,7 +29,7 @@ export const adminRegister = async (req, res) => {
         const newAdmin = new adminModel({ name: name, username: newUsername, password: hashedPassword })
         await newAdmin.save();
 
-        const token = jwt.sign({ id: newAdmin._id }, process.env.JWT_SECRET, { expiresIn: '1m' });
+        const token = jwt.sign({ id: newAdmin._id }, process.env.JWT_SECRET, { expiresIn: JWT_EXPIRY });
         res.status(200).json({
             success: true,
             message: "Admin registered successfully",
